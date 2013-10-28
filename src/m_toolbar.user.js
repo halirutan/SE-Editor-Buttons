@@ -633,38 +633,57 @@ EmbedCodeOnPage(function () {
                 if (s_start !== s_end) {
 
                     var orig = old_val.substr(s_start, s_end - s_start);
-                    // A simple-minded In/Out parser, has no clue about indentation.
+
+                    // A simple-minded In/Out parser that indents unindented input
                     // Iterates through matches of In/Out prompt and tries to
-                    // keep track of current state. When moving from In to Out
-                    // "(*" is put into the text, similarly for "*)"
+                    // keep track of current state.
+
+                    // Unindent
+                    if( /^(?:[ ]{4}[^\n]*[\n]?)+$/.test(orig) ){
+                      orig = orig.replace(/^[ ]{4}([^\n]*)$/gm, "\$1");
+                    }
+
                     var text = "";
-                    var inoutregex = /(In\[\d+\]:=[ \n]|Out\[\d+\](?:\/\/(?:(?:Standard|Full|Input|Output|Traditional|TeX|MathMLTree)Form|Short|Shallow))?=[ \n])/g;
+                    var inoutregex = /(In\[\d+\]:=[ \n]|Out\[\d+\](?:\/\/(?:(?:Standard|Full|Input|Output|Traditional|TeX|MathMLTree|Scientific|Engineering|Accounting)Form|Short|Shallow))?=[ \n])/g;
                     var state="I", type, last=0, hasMore = true;
                     while ( hasMore ){
                       if ( (match = inoutregex.exec(orig)) ){
                         text += orig.slice(last, match.index);
                         last = inoutregex.lastIndex;
-//                        console.log(match.index);
-//                        console.log(state);
-//                        console.log(text);
                         type = match[0].substr(0,1);
-                        if ( (state == "I" && type == "O") ){
-                          text += "(* ";
-                        }else if ( (state=="O" && type == "I") ){
+
+                        // End Output cell
+                        if ( (state=="O") ){
                           // Avoid having *) on its own line
-                          if( (text.substr(-1) == "\n") ){
-                            text = text.slice(0,-1);
-                          }
-                          // Blank line after output and next input
+                          text = text.replace(/[\s]+$/g, ""); 
+
+                          // Blank line between output and input state
+                          // Note that the newlines get stripped if next state is output
                           text += " *)\n\n";
                         }
+
+                        // Start Output cell
+                        if ( (type=="O") ){
+                          // Avoid empty line preceeding "(*"
+                          // for instance when selectig cell group
+                          // and copying with "edit -> copy -> copy as input text"
+                          text = text.replace(/[\n]+$/, ""); 
+                          text += "\n(* ";
+                        }
+
                         state = type;
                       }else{
                         hasMore = false;
                       }
                     }
                     text += orig.substr(last);
-                    if( (state == "O") ){ text += " *)\n"; }
+                    if( (state == "O") ){ 
+                      text = text.replace(/[\n]+$/, ""); 
+                      text += " *)";
+                    }
+
+                    // Indent
+                    text = text.replace(/^(.*)$/gm, "    \$1");
 
                     // iterate through the glyphs too
                     for (var iter = 0; iter < rules.length; iter++) {
