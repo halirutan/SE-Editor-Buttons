@@ -655,11 +655,8 @@ EmbedCodeOnPage(function () {
                         // End Output cell
                         if ( (state=="O") ){
                           // Avoid having *) on its own line
-                          text = text.replace(/[\s]+$/g, ""); 
-
-                          // Blank line between output and input state
                           // Note that the newlines get stripped if next state is output
-                          text += " *)\n\n";
+                          text = text.replace(/[\s]*$/, " *)\n\n"); 
                         }
 
                         // Start Output cell
@@ -667,8 +664,7 @@ EmbedCodeOnPage(function () {
                           // Avoid empty line preceeding "(*"
                           // for instance when selectig cell group
                           // and copying with "edit -> copy -> copy as input text"
-                          text = text.replace(/[\n]+$/, ""); 
-                          text += "\n(* ";
+                          text = text.replace(/[\n]*$/, "\n(* "); 
                         }
 
                         state = type;
@@ -678,8 +674,7 @@ EmbedCodeOnPage(function () {
                     }
                     text += orig.substr(last);
                     if( (state == "O") ){ 
-                      text = text.replace(/[\n]+$/, ""); 
-                      text += " *)";
+                      text = text.replace(/[\s]*$/, " *)"); 
                     }
 
                     // Indent
