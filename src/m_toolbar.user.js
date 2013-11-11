@@ -161,7 +161,7 @@ EmbedCodeOnPage(function () {
             // I simply copied the logic from InsertIntoEditor() to create a function which either asks for input
             // or, if something is selected, uses the current selection as input. This is in my eyes a bit more usable
             // then always using a input dialog.
-            function ReplaceMarkdown(question, markdown) {
+            function ReplaceMarkdown(question, markdown, preprocess) {
 
                 // Grab the current contents of the editor as well as the current selection
                 var old_val = editor.val();
@@ -176,6 +176,10 @@ EmbedCodeOnPage(function () {
                     answer = old_val.substr(s_start, s_end - s_start);
                 }
                 if (answer !== null && answer !== "") {
+
+                    if (preprocess !== undefined) {
+                      answer = preprocess(answer)
+                    }
 
                     var text = markdown.replace(/#INPUT#/g, answer);
 
@@ -750,7 +754,10 @@ EmbedCodeOnPage(function () {
                     'tooltip': 'Create a link to Wolfram online documentation.',
                     'callback': function () {
 
-                        ReplaceMarkdown('Mathematica Function (like Integrate, Plot, ..)', '[`#INPUT#`](http://reference.wolfram.com/mathematica/ref/#INPUT#.html)');
+                        ReplaceMarkdown(
+                          'Mathematica Function (like Integrate, Plot, ..)',
+                          '[`#INPUT#`](http://reference.wolfram.com/mathematica/ref/#INPUT#.html)',
+                          function(answer){ return answer.replace(/^`(.*)`$/g, "\$1" ); })
 
                     }
                 },
