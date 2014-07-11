@@ -756,7 +756,7 @@ EmbedCodeOnPage(function () {
 
                         ReplaceMarkdown(
                           'Mathematica Function (like Integrate, Plot, ..)',
-                          '[`#INPUT#`](http://reference.wolfram.com/mathematica/ref/#INPUT#.html)',
+                          '[`#INPUT#`](http://reference.wolfram.com/language/ref/#INPUT#.html)',
                           function(answer){ return answer.replace(/^`(.*)`$/g, "\$1" ); })
 
                     }
