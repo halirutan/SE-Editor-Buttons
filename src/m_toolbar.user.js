@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name          Mathematica Toolbar Buttons
 // @author        Nathan Osman and modifications for Mathematica.SE by Patrick Scheibe
-// @version       1.3.5
+// @version       1.3.6
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
 // @namespace     http://quickmediasolutions.com
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
 // @include       http://mathematica.stackexchange.com/*
+// @include       https://mathematica.stackexchange.com/*
 // @include       http://meta.mathematica.stackexchange.com/*
+// @include       https://meta.mathematica.stackexchange.com/*
 // ==/UserScript==
 
 // This method injects code into the current page and executes it after the dependant scripts are loaded
