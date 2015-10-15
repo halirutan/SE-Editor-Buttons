@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "Mathematica Editor-buttons for StackExchange",
+  "short_name": "m_toolbar",
+  "version": "1.3.7",
+  "icons": {"128": "icon128.png"},
+  "author": "Patrick Scheibe",
+  "description": "This browser user-script adds additional buttons to the Q&A editor on mathematica.stackexchange.com",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*.mathematica.stackexchange.com/*",
+        "https://*.mathematica.stackexchange.com/*"
+      ],
+      "js": ["m_toolbar.user.js"]
+    }
+  ]
+}

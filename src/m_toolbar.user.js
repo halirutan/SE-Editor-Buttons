@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name          Mathematica Toolbar Buttons
-// @author        Nathan Osman and modifications for Mathematica.SE by Patrick Scheibe
-// @version       1.3.6
+// @author        Nathan Osman, Patrick Scheibe
+// @version       1.3.7
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
-// @namespace     http://quickmediasolutions.com
+// @namespace     http://halirutan.de
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
 // @include       http://mathematica.stackexchange.com/*
 // @include       https://mathematica.stackexchange.com/*
@@ -180,7 +180,7 @@ EmbedCodeOnPage(function () {
                 if (answer !== null && answer !== "") {
 
                     if (preprocess !== undefined) {
-                      answer = preprocess(answer)
+                        answer = preprocess(answer)
                     }
 
                     var text = markdown.replace(/#INPUT#/g, answer);
@@ -200,7 +200,7 @@ EmbedCodeOnPage(function () {
             }
 
             // These are the glyphs we want to replace inside the markdown editor
-           var rules = [
+            var rules = [
                 ['\\\\\\[Aleph\\]', 'ℵ'],
                 ['\\\\\\[Alpha\\]', 'α'],
                 ['\\\\\\[And\\]', '∧'],
@@ -645,42 +645,42 @@ EmbedCodeOnPage(function () {
                     // keep track of current state.
 
                     // Unindent
-                    if( /^(?:[ ]{4}[^\n]*[\n]?)+$/.test(orig) ){
-                      orig = orig.replace(/^[ ]{4}([^\n]*)$/gm, "\$1");
+                    if (/^(?:[ ]{4}[^\n]*[\n]?)+$/.test(orig)) {
+                        orig = orig.replace(/^[ ]{4}([^\n]*)$/gm, "\$1");
                     }
 
                     var text = "";
                     var inoutregex = /(In\[\d+\]:=[ \n]|Out\[\d+\](?:\/\/(?:(?:Standard|Full|Input|Output|Traditional|TeX|MathMLTree|Scientific|Engineering|Accounting)Form|Short|Shallow))?=[ \n])/g;
-                    var state="I", type, last=0, hasMore = true;
-                    while ( hasMore ){
-                      if ( (match = inoutregex.exec(orig)) ){
-                        text += orig.slice(last, match.index);
-                        last = inoutregex.lastIndex;
-                        type = match[0].substr(0,1);
+                    var state = "I", type, last = 0, hasMore = true;
+                    while (hasMore) {
+                        if ((match = inoutregex.exec(orig))) {
+                            text += orig.slice(last, match.index);
+                            last = inoutregex.lastIndex;
+                            type = match[0].substr(0, 1);
 
-                        // End Output cell
-                        if ( (state=="O") ){
-                          // Avoid having *) on its own line
-                          // Note that the newlines get stripped if next state is output
-                          text = text.replace(/[\s]*$/, " *)\n\n"); 
+                            // End Output cell
+                            if ((state == "O")) {
+                                // Avoid having *) on its own line
+                                // Note that the newlines get stripped if next state is output
+                                text = text.replace(/[\s]*$/, " *)\n\n");
+                            }
+
+                            // Start Output cell
+                            if ((type == "O")) {
+                                // Avoid empty line preceeding "(*"
+                                // for instance when selectig cell group
+                                // and copying with "edit -> copy -> copy as input text"
+                                text = text.replace(/[\n]*$/, "\n(* ");
+                            }
+
+                            state = type;
+                        } else {
+                            hasMore = false;
                         }
-
-                        // Start Output cell
-                        if ( (type=="O") ){
-                          // Avoid empty line preceeding "(*"
-                          // for instance when selectig cell group
-                          // and copying with "edit -> copy -> copy as input text"
-                          text = text.replace(/[\n]*$/, "\n(* "); 
-                        }
-
-                        state = type;
-                      }else{
-                        hasMore = false;
-                      }
                     }
                     text += orig.substr(last);
-                    if( (state == "O") ){ 
-                      text = text.replace(/[\s]*$/, " *)"); 
+                    if ((state == "O")) {
+                        text = text.replace(/[\s]*$/, " *)");
                     }
 
                     // Indent
@@ -719,31 +719,34 @@ EmbedCodeOnPage(function () {
                 var answer;
                 if (s_start == s_end) {
                     answer = prompt("Insert keys space separated like \"Ctrl Alt C\"");
+                } else {
+                    answer = old_val.substr(s_start, s_end-s_start);
+                }
 
-                    if (answer !== null && answer !== "") {
+                if (answer !== null && answer !== "") {
 
-                        var keys = answer.split(" ");
+                    var keys = answer.split(" ");
 
-                        var text = "";
-                        for (var i = 0; i < keys.length; i++) {
-                            if (i !== 0) {
-                                text += "+";
-                            }
-                            text += "<kbd>" + keys[i] + "</kbd>";
+                    var text = "";
+                    for (var i = 0; i < keys.length; i++) {
+                        if (i !== 0) {
+                            text += "+";
                         }
-
-                        // Splice the contents and insert the new text
-                        var new_val = old_val.substr(0, s_start) + text + old_val.substr(s_end);
-                        editor.val(new_val);
-
-                        // Set the focus to the editor and select the newly added text
-                        editor[0].focus();
-                        editor[0].selectionStart = s_start;
-                        editor[0].selectionEnd = s_start + text.length;
-
-                        // Refresh the preview
-                        StackExchange.MarkdownEditor.refreshAllPreviews();
+                        text += "<kbd>" + keys[i] + "</kbd>";
                     }
+
+                    // Splice the contents and insert the new text
+                    var new_val = old_val.substr(0, s_start) + text + old_val.substr(s_end);
+                    editor.val(new_val);
+
+                    // Set the focus to the editor and select the newly added text
+                    editor[0].focus();
+                    editor[0].selectionStart = s_start;
+                    editor[0].selectionEnd = s_start + text.length;
+
+                    // Refresh the preview
+                    StackExchange.MarkdownEditor.refreshAllPreviews();
+
                 }
             }
 
@@ -757,9 +760,11 @@ EmbedCodeOnPage(function () {
                     'callback': function () {
 
                         ReplaceMarkdown(
-                          'Mathematica Function (like Integrate, Plot, ..)',
-                          '[`#INPUT#`](http://reference.wolfram.com/language/ref/#INPUT#.html)',
-                          function(answer){ return answer.replace(/^`(.*)`$/g, "\$1" ); })
+                            'Mathematica Function (like Integrate, Plot, ..)',
+                            '[`#INPUT#`](http://reference.wolfram.com/language/ref/#INPUT#.html)',
+                            function (answer) {
+                                return answer.trim().replace(/^`(.*)`$/g, "\$1");
+                            })
 
                     }
                 },
