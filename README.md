@@ -21,7 +21,7 @@ For detailed information please read [the official meta.mathematica post](http:/
 
  Just download the toolbar directly from the [Google Chrome Webstore](https://chrome.google.com/webstore/detail/mathematica-editor-button/jelneigihibbkognjehbbembccihhbnb)
 
- ### Safari
+### Safari
 
  In Safari (I tried OSX 10.6 and 10.8) one easy way is to use [NinjaKit](https://github.com/os0x/NinjaKit) which is an extension that lets you install user scripts. The usage is straight forward: First you download [the file NinjaKit.safariextz](http://ss-o.net/safari/extension/NinjaKit.safariextz) and install it by double-click.
 After that you should see a ninja-star-like button in Safari
