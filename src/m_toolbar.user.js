@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name          Mathematica Toolbar Buttons
 // @author        Nathan Osman, Patrick Scheibe
-// @version       1.3.7
+// @version       1.3.8
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
 // @namespace     http://halirutan.de
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
-// @include       http://mathematica.stackexchange.com/*
-// @include       https://mathematica.stackexchange.com/*
-// @include       http://meta.mathematica.stackexchange.com/*
-// @include       https://meta.mathematica.stackexchange.com/*
+// @include       http://*.stackexchange.com/*
+// @include       https://*.stackexchange.com/*
+// @include       http://meta.*.stackexchange.com/*
+// @include       https://meta.*.stackexchange.com/*
 // ==/UserScript==
 
 // This method injects code into the current page and executes it after the dependant scripts are loaded
@@ -66,7 +66,8 @@ EmbedCodeOnPage(function () {
             left = parseInt(left.replace(/\D/g, '')) + 25;
 
         // Begin by adding a spacer at the calculated position
-        toolbar.append('<li class="wmd-spacer" style="left: ' + left + 'px;"></li>');
+        //toolbar.append('<li class="wmd-spacer wmd-spacer-max" style="left: ' + left + 'px;"></li>');
+        toolbar.append('<li class="wmd-spacer wmd-spacer-max"></li>');
 
         // Now add each of the buttons
         for (var i = 0; i < buttons.length; ++i) {
@@ -143,7 +144,7 @@ EmbedCodeOnPage(function () {
 
     // This UserScript depends on LiveQuery, so load it now and continue
     // processing the page after this is complete
-    LoadDependentScript('https://jquery-utils.googlecode.com/svn-history/r307/trunk/src/jquery.livequery.js', function () {
+    LoadDependentScript('https://cdn.rawgit.com/hazzik/livequery/master/dist/jquery.livequery.min.js', function () {
 
         // For each button row, inject our buttons into the toolbar
         $('.wmd-button-row').livequery(function () {
@@ -755,7 +756,7 @@ EmbedCodeOnPage(function () {
                 // This is the button to create automatically inline code which is linked to the Wolfram doc.
                 // This does not work for all functions!
                 {
-                    'icon': 'http://i.stack.imgur.com/Jyeyd.png',
+                    'icon': 'https://i.stack.imgur.com/Jyeyd.png',
                     'tooltip': 'Create a link to Wolfram online documentation.',
                     'callback': function () {
 
@@ -772,7 +773,7 @@ EmbedCodeOnPage(function () {
 
                 // Button to replace Mathematica greek characters in selected text.
                 {
-                    'icon': 'http://i.stack.imgur.com/UAgo2.png',
+                    'icon': 'https://i.stack.imgur.com/UAgo2.png',
                     'tooltip': 'Replace symbol forms like \\[Alpha] with unicode glyphs in selected text.',
                     'callback': function () {
 
@@ -783,7 +784,7 @@ EmbedCodeOnPage(function () {
 
                 // Button to format In[1]:= .. code
                 {
-                    'icon': 'http://i.stack.imgur.com/1drB7.png',
+                    'icon': 'https://i.stack.imgur.com/1drB7.png',
                     'tooltip': 'Removes In[1]:= .. marks and replace glyphs in selected text.',
                     'callback': function () {
 
@@ -795,7 +796,7 @@ EmbedCodeOnPage(function () {
 
                 // Button to insert nicely rendered shortcut keys
                 {
-                    'icon': 'http://i.stack.imgur.com/W9yah.png',
+                    'icon': 'https://i.stack.imgur.com/W9yah.png',
                     'tooltip': 'Create nicely rendered keyboard shortcuts.',
                     'callback': function () {
 

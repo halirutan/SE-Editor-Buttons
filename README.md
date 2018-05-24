@@ -19,7 +19,7 @@ For detailed information please read [the official meta.mathematica post](http:/
 
 ### Chrome
 
- Just download the toolbar directly from the [Google Chrome Webstore](https://chrome.google.com/webstore/detail/mathematica-editor-button/jelneigihibbkognjehbbembccihhbnb)
+Just download the toolbar directly from the [Google Chrome Webstore](https://chrome.google.com/webstore/detail/mathematica-editor-button/jelneigihibbkognjehbbembccihhbnb)
 
 ### Safari
 
