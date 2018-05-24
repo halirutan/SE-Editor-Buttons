@@ -5,10 +5,9 @@
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
 // @namespace     http://halirutan.de
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
-// @include       http://*.stackexchange.com/*
-// @include       https://*.stackexchange.com/*
-// @include       http://meta.*.stackexchange.com/*
-// @include       https://meta.*.stackexchange.com/*
+// @include       https://mathematica.stackexchange.com/*
+// @include       https://mathematica.meta.stackexchange.com/*
+// @include       https://math.stackexchange.com/*
 // ==/UserScript==
 
 // This method injects code into the current page and executes it after the dependant scripts are loaded
