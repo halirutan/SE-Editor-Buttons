@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Mathematica Toolbar Buttons
 // @author        Nathan Osman, Patrick Scheibe
-// @version       1.4.1
+// @version       1.4.2
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
 // @namespace     http://halirutan.de
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
