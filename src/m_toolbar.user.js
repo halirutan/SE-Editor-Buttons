@@ -149,7 +149,7 @@ EmbedCodeOnPage(function () {
         $('.wmd-button-row').livequery(function () {
 
             var button_row = $(this);
-            var editor = button_row.parent().siblings('.wmd-input');
+            var editor = button_row.parent().parent().find('.wmd-input');
 
             // Asks the user the specified question and inserts the answer into the editor with the specified markdown
             function InsertMarkdown(question, markdown) {
