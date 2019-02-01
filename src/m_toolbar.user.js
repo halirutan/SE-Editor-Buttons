@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Mathematica Toolbar Buttons
 // @author        Nathan Osman, Patrick Scheibe
-// @version       1.4.2
+// @version       1.4.3
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
 // @namespace     http://halirutan.de
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
@@ -108,14 +108,18 @@ EmbedCodeOnPage(function () {
         }
     }
 
+    // Returns the start and end point of the selection in the editor
+    function SelectionStartEnd(editor) {
+        return [editor[0].selectionStart, editor[0].selectionEnd].sort(function (a, b) {  return a - b;  });
+    }
+
     // Inserts the specified text at the current cursor position in the editor, replacing
     // the current selection (if any)
     function InsertIntoEditor(editor, text) {
 
         // Grab the current contents of the editor as well as the current selection
         var old_val = editor.val();
-        var s_start = editor[0].selectionStart;
-        var s_end = editor[0].selectionEnd;
+        var [s_start, s_end] = SelectionStartEnd(editor);
 
         // Splice the contents and insert the new text
         var new_val = old_val.substr(0, s_start) + text + old_val.substr(s_end);
@@ -167,8 +171,7 @@ EmbedCodeOnPage(function () {
 
                 // Grab the current contents of the editor as well as the current selection
                 var old_val = editor.val();
-                var s_start = editor[0].selectionStart;
-                var s_end = editor[0].selectionEnd;
+                var [s_start, s_end] = SelectionStartEnd(editor);
 
                 // Check whether text was selected and prompt the user for input if not.
                 var answer;
@@ -603,8 +606,7 @@ EmbedCodeOnPage(function () {
 
                 // Grab the current contents of the editor as well as the current selection
                 var old_val = editor.val();
-                var s_start = editor[0].selectionStart;
-                var s_end = editor[0].selectionEnd;
+                var [s_start, s_end] = SelectionStartEnd(editor);
 
                 if (s_start !== s_end) {
 
@@ -633,8 +635,7 @@ EmbedCodeOnPage(function () {
 
             function ReplaceInOut() {
                 var old_val = editor.val();
-                var s_start = editor[0].selectionStart;
-                var s_end = editor[0].selectionEnd;
+                var [s_start, s_end] = SelectionStartEnd(editor);
 
                 if (s_start !== s_end) {
 
@@ -712,8 +713,7 @@ EmbedCodeOnPage(function () {
 
                 // Grab the current contents of the editor as well as the current selection
                 var old_val = editor.val();
-                var s_start = editor[0].selectionStart;
-                var s_end = editor[0].selectionEnd;
+                var [s_start, s_end] = SelectionStartEnd(editor);
 
                 // Check whether text was selected and prompt the user for input if not.
                 var answer;
