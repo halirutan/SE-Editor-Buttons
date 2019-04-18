@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Mathematica Toolbar Buttons
 // @author        Nathan Osman, Patrick Scheibe
-// @version       1.4.3
+// @version       1.4.4
 // @downloadURL   https://github.com/halirutan/SE-Editor-Buttons/raw/master/src/m_toolbar.user.js
 // @namespace     http://halirutan.de
 // @description	  Adds some buttons to the editing toolbar to make it easy to insert links, unicode glyphs and shortcut keys.
@@ -172,6 +172,10 @@ EmbedCodeOnPage(function () {
                 // Grab the current contents of the editor as well as the current selection
                 var old_val = editor.val();
                 var [s_start, s_end] = SelectionStartEnd(editor);
+
+                // shrink the selection if there are leading/trailing whitespaces
+                s_start += old_val.substr(s_start, s_end - s_start).match(/^\s*/)[0].length;
+                s_end -= old_val.substr(s_start, s_end - s_start).match(/\s*$/)[0].length;
 
                 // Check whether text was selected and prompt the user for input if not.
                 var answer;
