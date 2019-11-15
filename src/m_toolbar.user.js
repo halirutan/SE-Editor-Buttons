@@ -655,13 +655,17 @@ EmbedCodeOnPage(function () {
                     }
 
                     var text = "";
-                    var inoutregex = /(In\[\d+\]:=[ \n]|Out\[\d+\](?:\/\/(?:(?:Standard|Full|Input|Output|Traditional|TeX|MathMLTree|Scientific|Engineering|Accounting)Form|Short|Shallow))?=[ \n])/g;
+                    var inoutregex = /(In\[\d+\]:=[ \n]|Out\[\d+\](?:\/\/(?:(?:Standard|Full|Input|Output|Traditional|TeX|MathMLTree|Scientific|Engineering|Accounting)Form|Short|Shallow))?=[ \n]|During evaluation of In\[\d+\]:=[ \n])/g;
                     var state = "I", type, last = 0, hasMore = true;
                     while (hasMore) {
                         if ((match = inoutregex.exec(orig))) {
                             text += orig.slice(last, match.index);
                             last = inoutregex.lastIndex;
                             type = match[0].substr(0, 1);
+
+                            if ((type == "D")) {
+                                type = "O";
+                            }
 
                             // End Output cell
                             if ((state == "O")) {
